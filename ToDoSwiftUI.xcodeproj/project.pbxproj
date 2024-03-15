@@ -16,6 +16,7 @@
 		850AFF6D2B690AAC007F8B67 /* ToDoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AFF6C2B690AAC007F8B67 /* ToDoRow.swift */; };
 		85A6393A2B7B9376005C986D /* AddTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A639392B7B9376005C986D /* AddTask.swift */; };
 		85A6393C2B7B95DE005C986D /* DoneTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A6393B2B7B95DE005C986D /* DoneTasks.swift */; };
+		EF9F19A72BA4CF740002A321 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9F19A62BA4CF740002A321 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		850AFF6C2B690AAC007F8B67 /* ToDoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRow.swift; sourceTree = "<group>"; };
 		85A639392B7B9376005C986D /* AddTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTask.swift; sourceTree = "<group>"; };
 		85A6393B2B7B95DE005C986D /* DoneTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneTasks.swift; sourceTree = "<group>"; };
+		EF9F19A62BA4CF740002A321 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFB4FDC42B9F5E560030B715 /* ToDoSwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ToDoSwiftUI.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +70,7 @@
 				850AFF582B6905CD007F8B67 /* ToDoSwiftUIApp.swift */,
 				850AFF5C2B6905CE007F8B67 /* Assets.xcassets */,
 				850AFF5E2B6905CE007F8B67 /* Preview Content */,
+				EF9F19A62BA4CF740002A321 /* AppDelegate.swift */,
 			);
 			path = ToDoSwiftUI;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF9F19A72BA4CF740002A321 /* AppDelegate.swift in Sources */,
 				850AFF6D2B690AAC007F8B67 /* ToDoRow.swift in Sources */,
 				850AFF692B690881007F8B67 /* ToDoModel.swift in Sources */,
 				850AFF6B2B6908BC007F8B67 /* ToDoItem.swift in Sources */,

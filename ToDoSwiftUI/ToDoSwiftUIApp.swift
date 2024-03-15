@@ -11,6 +11,7 @@ import SwiftUI
 struct ToDoSwiftUIApp: App {
     
     @State private var model = ToDoModel()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     var body: some Scene {
         WindowGroup {
