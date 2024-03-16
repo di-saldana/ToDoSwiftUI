@@ -7,6 +7,7 @@
 
 import UIKit
 import UserNotifications
+import SwiftUI
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
@@ -93,5 +94,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // y modificamos la interfaz de usuario accediendo al rootViewController
         
         vecesPulsadaNotificacion += 1
+        
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Acción escogida",
+                                                    message: "La acción escogida fue: \(response.actionIdentifier)",
+                                                    preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            let scenes = UIApplication.shared.connectedScenes
+            let windowScene = scenes.first as? UIWindowScene 
+            let window = windowScene?.windows.first
+            window?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
+        
+        completionHandler()
     }
+
 }
