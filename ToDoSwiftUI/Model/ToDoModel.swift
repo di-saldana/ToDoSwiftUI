@@ -14,6 +14,7 @@ class ToDoModel {
 
     init() {
         loadTestData()
+        NotificationManager.shared.requestAuthorization()
     }
     
     func loadTestData() {
