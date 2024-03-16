@@ -25,10 +25,6 @@ struct DoneTasks: View {
     }
 }
 
-
-
-
-
 #Preview {
     DoneTasks()
         .environment(ToDoModel())
