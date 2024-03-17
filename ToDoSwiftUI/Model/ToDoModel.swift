@@ -28,9 +28,6 @@ class ToDoModel {
     }
     
     private func loadItems() {
-//       RESET VALUES
-//        iCloudStore.set(0, forKey: "itemsTerminados")
-//        iCloudStore.synchronize()
         itemsTerminados = Int(iCloudStore.longLong(forKey: "itemsTerminados"))
         
         let privateDB = CKContainer.default().privateCloudDatabase
@@ -85,55 +82,30 @@ class ToDoModel {
         toDoItems = itemsPendientes
     }
     
-    func deleteTarea1(_ toDoItem: ToDoItem) {
-        let query = CKQuery(recordType: "Tarea",
-                            predicate: NSPredicate(format: "nombre == %@", argumentArray: [toDoItem.nombreItem]))
-        let privateDB = CKContainer.default().publicCloudDatabase
-        
-        privateDB.fetch(withQuery: query, completionHandler: { (result) in
-            switch result {
-                case .success(let records):
-                    for (_, recordResult) in records.matchResults {
-                        if case .success(let record) = recordResult {
-                            privateDB.delete(withRecordID: record.recordID, completionHandler: {
-                                (recordID, error) in print("Error: \(String(describing: error))")
-                            })
-                        }
-                    }
-                    break
-                case .failure(let error):
-                    print("Error al cargar: \(error)")
-                    break
-            }
-        })
-    }
-    
     func deleteTarea(_ toDoItem: ToDoItem) {
         let privateDB = CKContainer.default().privateCloudDatabase
         let predicate = NSPredicate(format: "nombre == %@", toDoItem.nombreItem)
         let query = CKQuery(recordType: "Tarea", predicate: predicate)
         
-        // TODO: Update
-        privateDB.perform(query, inZoneWith: nil) { (records, error) in
-            guard let record = records?.first, error == nil else {
-                if let error = error {
-                    print("Error fetching records to delete: \(error.localizedDescription)")
-                } else {
-                    print("No record found to delete.")
+        privateDB.fetch(withQuery: query, completionHandler: { (result) in
+            switch result {
+            case .success(let records):
+                for (_, recordResult) in records.matchResults {
+                    if case .success(let record) = recordResult {
+                        privateDB.delete(withRecordID: record.recordID) { (recordID, error) in
+                            if let error = error {
+                                print("Error deleting record: \(error.localizedDescription)")
+                                return
+                            }
+                            print("Record deleted successfully")
+                        }
+                    }
                 }
-                return
+            case .failure(_):
+                print("Failed to fetch records for deletion")
             }
-            
-            privateDB.delete(withRecordID: record.recordID) { (recordID, error) in
-                if let error = error {
-                    print("Error deleting record: \(error.localizedDescription)")
-                    return
-                }
-                print("Record deleted successfully")
-            }
-        }
+        })
     }
-
     
     func saveTarea(item: ToDoItem) {
         let record = CKRecord(recordType: "Tarea")
