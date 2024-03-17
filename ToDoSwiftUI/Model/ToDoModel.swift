@@ -18,16 +18,9 @@ class ToDoModel {
     init() {
         loadItems()
         NotificationManager.shared.requestAuthorization()
-        
-//        container.requestApplicationPermission(
-//            CKContainer.ApplicationPermissions.userDiscoverability,
-//            completionHandler: { (permissionStatus, error) in
-//                print("Permiso concedido: " +
-//                    "\(permissionStatus == CKContainer.ApplicationPermissionStatus.granted)")})
-
     }
     
-    private func loadItems() {
+    func loadItems() {
         itemsTerminados = Int(iCloudStore.longLong(forKey: "itemsTerminados"))
         
         let privateDB = CKContainer.default().privateCloudDatabase
@@ -38,8 +31,9 @@ class ToDoModel {
                 case .success(let records):
                     for (_, recordResult) in records.matchResults {
                         if case .success(let record) = recordResult {
-                            if let nombre = record["nombre"] {
-                                let toDoItem = ToDoItem(nombreItem: nombre as! String)
+                            if let nombre = record["nombre"] as? String {
+                                let isPublic = record["publica"] as? Bool ?? true
+                                let toDoItem = ToDoItem(nombreItem: nombre, publica: isPublic)
                                 self.toDoItems.append(toDoItem)
                             }
                         }
@@ -50,6 +44,26 @@ class ToDoModel {
                     break
             }
         })
+        
+        let publicDB = CKContainer.default().publicCloudDatabase
+        let publicQuery = CKQuery(recordType: "Tarea", predicate: NSPredicate(value: true))
+        
+        publicDB.fetch(withQuery: publicQuery, completionHandler: { (result) in
+            switch result {
+                case .success(let records):
+                    for (_, recordResult) in records.matchResults {
+                        if case .success(let record) = recordResult {
+                            if let nombre = record["nombre"] as? String {
+                                let isPublic = record["publica"] as? Bool ?? false
+                                let toDoItem = ToDoItem(nombreItem: nombre, publica: isPublic)
+                                self.toDoItems.append(toDoItem)
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print("Error al cargar tareas públicas: \(error)")
+            }
+        })
     }
     
     func loadTestData() {
@@ -58,13 +72,22 @@ class ToDoModel {
         toDoItems.append(ToDoItem(nombreItem: "Terminar ejercicios iOS"))
     }
         
-    func addItem(item: ToDoItem) {
+    func addItem(item: ToDoItem, toPublicDatabase: Bool = false) {
         toDoItems.append(item)
-        saveTarea(item: item)
+        
+        if toPublicDatabase {
+            saveTareaToPublicDatabase(item: item)
+        } else {
+            saveTarea(item: item)
+        }
     }
     
-    func addItem(nombreItem: String) {
-        addItem(item: ToDoItem(nombreItem: nombreItem))
+    func addItem(nombreItem: String, toPublicDatabase: Bool = false) {
+        if toPublicDatabase {
+            addItem(item: ToDoItem(nombreItem: nombreItem), toPublicDatabase: true)
+        } else {
+            addItem(item: ToDoItem(nombreItem: nombreItem), toPublicDatabase: false)
+        }
     }
 
     func removeCompletedItems() {
@@ -110,6 +133,7 @@ class ToDoModel {
     func saveTarea(item: ToDoItem) {
         let record = CKRecord(recordType: "Tarea")
         record["nombre"] = item.nombreItem as CKRecordValue
+        record["publica"] = false as CKRecordValue
         let privateDB = CKContainer.default().privateCloudDatabase
         
         privateDB.save(record) { (savedRecord, error) in
@@ -118,6 +142,21 @@ class ToDoModel {
                 return
             }
             print("Tarea guardada en CloudKit")
+        }
+    }
+    
+    private func saveTareaToPublicDatabase(item: ToDoItem) {
+        let record = CKRecord(recordType: "Tarea")
+        record["nombre"] = item.nombreItem as CKRecordValue
+        record["publica"] = true as CKRecordValue
+        let publicDB = CKContainer.default().publicCloudDatabase
+        
+        publicDB.save(record) { (savedRecord, error) in
+            if let error = error {
+                print("Error al guardar tarea en CloudKit (pública): \(error.localizedDescription)")
+                return
+            }
+            print("Tarea guardada en CloudKit (pública)")
         }
     }
 

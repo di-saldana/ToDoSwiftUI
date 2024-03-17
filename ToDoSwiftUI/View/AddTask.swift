@@ -12,6 +12,7 @@ struct AddTask: View {
     @Environment(ToDoModel.self) private var model
     @State private var item: ToDoItem = ToDoItem(nombreItem: "")
     @FocusState private var isFocused: Bool
+    @State private var isShowingActionSheet = false
     
     var body: some View {
         NavigationView {
@@ -20,10 +21,9 @@ struct AddTask: View {
             }.toolbar() {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        if(!item.nombreItem.isEmpty) {
-                            model.addItem(item: item)
+                        if !item.nombreItem.isEmpty {
+                            isShowingActionSheet = true
                         }
-                        dismiss()
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
@@ -31,10 +31,24 @@ struct AddTask: View {
                         dismiss()
                     }
                 }
-            }.onAppear() {
+            }
+            .actionSheet(isPresented: $isShowingActionSheet) {
+                ActionSheet(title: Text("Añadir a"), buttons: [
+                    .default(Text("Récord Público")) {
+                        model.addItem(item: item, toPublicDatabase: true)
+                        dismiss()
+                    },
+                    .default(Text("Récord Privado")) {
+                        model.addItem(item: item, toPublicDatabase: false)
+                        dismiss()
+                    },
+                    .cancel()
+                ])
+            }
+            .onAppear() {
                 isFocused = true
             }
-        
+            .navigationTitle("Añadir Tarea")
         }
     }
 }

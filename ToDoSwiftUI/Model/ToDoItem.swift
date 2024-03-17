@@ -11,5 +11,6 @@ struct ToDoItem: Identifiable {
     var id = UUID()
     var nombreItem: String
     var completado: Bool = false
-    var fechaFinalizacion: Date? = nil        
+    var fechaFinalizacion: Date? = nil      
+    var publica: Bool = false
 }
