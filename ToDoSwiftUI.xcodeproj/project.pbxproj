@@ -31,6 +31,7 @@
 		85A639392B7B9376005C986D /* AddTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTask.swift; sourceTree = "<group>"; };
 		85A6393B2B7B95DE005C986D /* DoneTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneTasks.swift; sourceTree = "<group>"; };
 		EF1DB5C92BA5CF4D007035B8 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		EF1DB5CB2BA5D140007035B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EFB4FDC42B9F5E560030B715 /* ToDoSwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ToDoSwiftUI.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,6 +65,7 @@
 		850AFF572B6905CD007F8B67 /* ToDoSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				EF1DB5CB2BA5D140007035B8 /* Info.plist */,
 				EFB4FDC42B9F5E560030B715 /* ToDoSwiftUI.entitlements */,
 				850AFF6F2B690C78007F8B67 /* Model */,
 				850AFF6E2B690C64007F8B67 /* View */,
@@ -319,6 +321,7 @@
 				DEVELOPMENT_TEAM = 3S952AGH46;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ToDoSwiftUI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -352,6 +355,7 @@
 				DEVELOPMENT_TEAM = 3S952AGH46;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ToDoSwiftUI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
